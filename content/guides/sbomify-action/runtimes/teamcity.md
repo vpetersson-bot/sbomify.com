@@ -2,10 +2,10 @@
 
 url: /guides/sbomify-action/runtimes/teamcity/
 title: "SBOM Generation in TeamCity"
-description: "Run the sbomify action in TeamCity using the Docker Wrapper build feature or a Kotlin DSL configuration, with caching, parameters and manual VCS configuration."
+description: "Run the sbomify action in TeamCity using the Docker Wrapper build feature or a Kotlin DSL configuration, with caching, parameters and Git VCS auto-detection."
 keywords: ["TeamCity SBOM", "TeamCity CycloneDX", "Docker Wrapper", "SBOM pipeline"]
 section: guides
-tldr: "Add a Command Line step with the Docker Wrapper build feature pointing at the container image. Set VCS details in sbomify.json, since TeamCity's parameters are not auto-detected."
+tldr: "Add a Command Line step with the Docker Wrapper build feature pointing at the container image. VCS details are auto-detected for Git roots, though a containerised step usually needs SBOMIFY_VCS_URL and SBOMIFY_VCS_REF mapped explicitly."
 ---
 
 TeamCity runs the container image through the **Docker Wrapper** build feature, which wraps a Command Line step so it executes inside a container.
@@ -88,8 +88,8 @@ env.COMPONENT_VERSION = %build.vcs.number%
 For tagged releases, use a VCS trigger on tags and read the branch name:
 
 ```text
-env.COMPONENT_VERSION = %teamcity.build.branch%
-env.PRODUCT_RELEASE   = ["your-product-id:%teamcity.build.branch%"]
+env.COMPONENT_VERSION = %teamcity.build.vcs.branch.MyVcsRoot%
+env.PRODUCT_RELEASE   = ["your-product-id:%teamcity.build.vcs.branch.MyVcsRoot%"]
 ```
 
 ## Caching
@@ -113,21 +113,53 @@ Two things are worth caching here. The [tool runtimes](/guides/sbomify-action/ad
 
 ## VCS information
 
-TeamCity does not expose repository details in the form the action auto-detects, so set them in `sbomify.json`. Generate it from build parameters in an earlier Command Line step:
+TeamCity is auto-detected, but it works differently from the other platforms and has real limits worth understanding.
 
-```bash
-cat > sbomify.json <<EOF
+The other CI systems hand you everything in environment variables. TeamCity exposes only three: `TEAMCITY_VERSION`, `BUILD_VCS_NUMBER` (the VCS _revision_ - `BUILD_NUMBER` is the build counter) and `TEAMCITY_BUILD_PROPERTIES_FILE`. The repository URL and branch are TeamCity _configuration parameters_, reachable only by reading the build properties file and following it to a second file.
+
+Values resolve in this order, with `sbomify.json` beating everything:
+
+1. `sbomify.json`
+2. The build properties file - zero configuration, works out of the box
+3. `SBOMIFY_VCS_URL` and `SBOMIFY_VCS_REF`
+
+### Inside a container, map it explicitly
+
+**This matters for the Docker Wrapper setup above.** The properties file lives on the agent, and the path in `TEAMCITY_BUILD_PROPERTIES_FILE` may point somewhere the container cannot see. When that happens auto-detection finds nothing.
+
+Set the two variables explicitly, using your VCS root ID:
+
+```text
+env.SBOMIFY_VCS_URL = %vcsroot.MyVcsRoot.url%
+env.SBOMIFY_VCS_REF = %teamcity.build.vcs.branch.MyVcsRoot%
+```
+
+Find the root ID under Project Settings, VCS Roots. `BUILD_VCS_NUMBER` needs no mapping - it is a real environment variable and reaches the container on its own.
+
+> **Use `%teamcity.build.vcs.branch.<VcsRootId>%`, not `%teamcity.build.branch%`.** The latter is the literal string `<default>` when the build runs on the default branch with no branch specification configured ([TW-23699](https://youtrack.jetbrains.com/issue/TW-23699)), which would be recorded as your branch name.
+
+### Only Git roots are augmented
+
+TeamCity is VCS-agnostic - a root may be Subversion, Perforce, TFVC, Mercurial or anything a plugin adds. Under those, `BUILD_VCS_NUMBER` is a revision number, changelist or timestamp rather than a commit hash. Since the SBOM VCS fields are Git-shaped (`git+https://...@sha`), recording a Perforce changelist as a commit would put a false claim into an attestation document.
+
+TeamCity exposes no VCS-type parameter at all, so the repository URL is the only signal available. A URL ending in `.git`, on a known Git host, or in `ssh://` or `git@host:path` form is treated as Git. Anything else is skipped.
+
+The consequence: a **self-hosted Git server whose URL has neither a `.git` suffix nor a recognised host** - `https://git.example.com/team/app`, say - cannot be auto-detected. Set `SBOMIFY_VCS_URL` for those, or `vcs_url` in `sbomify.json`. An explicitly supplied URL is always trusted.
+
+This is deliberate. For an attestation document, omitting provenance is better than asserting a repository that may not be Git.
+
+For a non-Git root, record it yourself with `vcs_url` and `vcs_commit_sha` in [`sbomify.json`](/guides/sbomify-action/augmentation/):
+
+```json
 {
-  "vcs_url": "%vcsroot.url%",
-  "vcs_commit_sha": "%build.vcs.number%",
-  "vcs_ref": "%teamcity.build.branch%",
+  "vcs_url": "https://svn.example.com/repo/trunk",
+  "vcs_commit_sha": "r12345",
   "supplier": {"name": "My Company"},
   "lifecycle_phase": "build"
 }
-EOF
 ```
 
-Then set `env.AUGMENT = true`. See [augmentation](/guides/sbomify-action/augmentation/).
+No commit URL is emitted on TeamCity. It is host-agnostic and the commit path differs per host (`/commit/`, `/-/commit/`, `/commits/`), so guessing wrong is worse than omitting it.
 
 ## Container images
 

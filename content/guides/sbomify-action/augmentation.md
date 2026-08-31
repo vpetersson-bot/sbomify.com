@@ -99,11 +99,12 @@ By default augmentation only fills fields that are empty. Set `OVERRIDE_SBOM_MET
 
 When running in supported CI environments, repository URL, commit SHA and branch or tag are detected and added automatically. No configuration needed.
 
-| Runtime             | Detected                                  | Notes                               |
-| ------------------- | ----------------------------------------- | ----------------------------------- |
-| GitHub Actions      | Repository URL, commit SHA, branch or tag | Works with GitHub Enterprise Server |
-| GitLab CI           | Project URL, commit SHA, ref name         | Works with self-managed instances   |
-| Bitbucket Pipelines | Repository URL, commit SHA, branch or tag |                                     |
+| Runtime             | Detected                                  | Notes                                               |
+| ------------------- | ----------------------------------------- | --------------------------------------------------- |
+| GitHub Actions      | Repository URL, commit SHA, branch or tag | Works with GitHub Enterprise Server                 |
+| GitLab CI           | Project URL, commit SHA, ref name         | Works with self-managed instances                   |
+| Bitbucket Pipelines | Repository URL, commit SHA, branch or tag |                                                     |
+| TeamCity            | Repository URL, commit SHA, branch or tag | Git roots only; read from the build properties file |
 
 What gets written:
 
@@ -111,6 +112,10 @@ What gets written:
 - **SPDX** - `downloadLocation` pinned to the commit, plus `sourceInfo` with build context and a VCS external reference
 
 This is what makes an SBOM traceable back to a specific commit, which in turn is what makes signing meaningful: the document says exactly which source produced it.
+
+### TeamCity
+
+TeamCity is detected, but with two caveats worth knowing: the repository URL and branch come from a build properties file the container may not be able to read, and only roots positively identifiable as Git are recorded. `SBOMIFY_VCS_URL` and `SBOMIFY_VCS_REF` cover both cases. See [the TeamCity guide](/guides/sbomify-action/runtimes/teamcity/#vcs-information).
 
 ### Other runtimes
 

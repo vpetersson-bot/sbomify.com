@@ -58,6 +58,8 @@ Non-SBOM `BOM_TYPE` values are uploaded verbatim to sbomify: augmentation, enric
 | `ADDITIONAL_PACKAGES`      | none                      | Inline PURLs to inject, comma or newline separated.                                                                                                                                                        |
 | `ADDITIONAL_PACKAGES_FILE` | `additional_packages.txt` | Path to a file of PURLs, one per line.                                                                                                                                                                     |
 | `DISABLE_VCS_AUGMENTATION` | `false`                   | Disable automatic VCS detection from the CI environment.                                                                                                                                                   |
+| `SBOMIFY_VCS_URL`          | none                      | Repository URL to record when auto-detection cannot find one. **TeamCity only.**                                                                                                                           |
+| `SBOMIFY_VCS_REF`          | none                      | Branch or tag to record when auto-detection cannot find one. **TeamCity only.**                                                                                                                            |
 | `SUBMODULE_PATH`           | none                      | Treat the component as a git submodule pinned at this path. Resolves the pin to a version and reuses an existing SBOM at that version if there is one. Requires `LOCK_FILE` and the `sbomify` destination. |
 | `WORKING_DIR`              | none                      | Working directory. On GitHub Actions prefer the `working-dir` input.                                                                                                                                       |
 
@@ -143,6 +145,7 @@ You do not set these. They are read from the environment to detect VCS informati
 - **GitHub Actions** - `GITHUB_REPOSITORY`, `GITHUB_SERVER_URL`, `GITHUB_SHA`, `GITHUB_REF`, `GITHUB_REF_NAME`, `GITHUB_WORKSPACE`, `GITHUB_RUN_ID`, `GITHUB_REPOSITORY_VISIBILITY`, `ACTIONS_ID_TOKEN_REQUEST_URL`, `ACTIONS_ID_TOKEN_REQUEST_TOKEN`
 - **GitLab CI** - `CI_PROJECT_URL`, `CI_PROJECT_PATH`, `CI_SERVER_URL`, `CI_COMMIT_SHA`, `CI_COMMIT_REF_NAME`, `CI_PIPELINE_ID`, `CI_PROJECT_VISIBILITY`
 - **Bitbucket** - `BITBUCKET_WORKSPACE`, `BITBUCKET_REPO_SLUG`, `BITBUCKET_COMMIT`, `BITBUCKET_BRANCH`, `BITBUCKET_TAG`, `BITBUCKET_GIT_HTTP_ORIGIN`
+- **TeamCity** - `TEAMCITY_VERSION`, `BUILD_VCS_NUMBER`, `TEAMCITY_BUILD_PROPERTIES_FILE`
 
 The two OIDC request variables only exist when the workflow grants `permissions: id-token: write`.
 
