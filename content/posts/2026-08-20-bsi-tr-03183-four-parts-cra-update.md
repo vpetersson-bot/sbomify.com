@@ -2,7 +2,6 @@
 
 title: "BSI TR-03183 Is Now Four Documents, and the CRA Clock Runs Out in Three Weeks"
 description: "BSI published TR-03183-1 in version 1.0.0 on 31 July 2026, completing a four-part CRA guideline family. Here is what changed across TR-03183, the Commission's July 2026 guidance, and the ENISA Single Reporting Platform before 11 September."
-keywords: "BSI TR-03183, TR-03183-1, TR-03183-3 security.txt, RFC 9116 CRA, CRA reporting 11 September 2026, Single Reporting Platform, EN 40000, CRA harmonised standards, BSI SBOM requirements, CRA compliance 2026"
 categories:
   - compliance
 tags: [sbom, cra, bsi, tr-03183, compliance, eu, vulnerability-reporting, csaf]

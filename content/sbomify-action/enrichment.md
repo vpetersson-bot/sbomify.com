@@ -5,7 +5,6 @@ aliases:
   - /guides/sbomify-action/enrichment/
 title: "Enrichment: Filling In Component Metadata"
 description: "How the sbomify action enriches every component with licenses, suppliers, descriptions and hashes from package registries, distro license databases and lifecycle data."
-keywords: ["SBOM enrichment", "SBOM license data", "package metadata", "component hash", "end of life data"]
 tldr: "Scanners find packages but leave licenses and suppliers empty. Enrichment queries package registries, pre-computed distro license databases and lifecycle data to fill those gaps, and pulls integrity hashes straight from your lockfile."
 ---
 

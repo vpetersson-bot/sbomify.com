@@ -5,7 +5,6 @@ aliases:
   - /guides/sbomify-action/configuration/
 title: "sbomify Action Configuration Reference"
 description: "Every input, environment variable and CLI flag for the sbomify action, including precedence rules and deprecated aliases."
-keywords: ["sbomify action configuration", "SBOM environment variables", "sbomify-action reference"]
 tldr: "Configuration is environment variables, and they are the same on every runtime. Exactly one input source is required; everything else has a sensible default."
 ---
 

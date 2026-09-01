@@ -6,7 +6,6 @@ author:
 categories:
   - guide
 tags: [sbom, yocto, openembedded, spdx, bitbake, embedded-linux]
-keywords: [yocto sbom, yocto spdx, openembedded sbom, bitbake spdx, build-time sbom generation, embedded linux sbom]
 tldr: "Most SBOM tools scan finished artifacts. Yocto's create-spdx class takes a different approach: it generates SBOMs during the build itself, with full access to BitBake's recipe metadata, source URIs, patches, and packaging information. This 5-part series walks through how the SPDX 2.2 and SPDX 3.0 pipelines work in OpenEmbedded-Core."
 date: 2026-05-05
 slug: yocto-sbom-deep-dive-introduction

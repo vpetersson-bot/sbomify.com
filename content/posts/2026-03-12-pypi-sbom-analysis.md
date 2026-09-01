@@ -8,7 +8,6 @@ slug: pypi-sbom-analysis
 categories:
   - education
 tags: [sbom, python, pep-770, cyclonedx, pypi, tea, transparency-exchange-api]
-keywords: [pypi sbom adoption, python sbom analysis, pep 770 adoption, cyclonedx python, transparency exchange api]
 tldr: "We analyzed 15k+ of the top Python packages on PyPI for SBOM adoption. Only 238 packages (1.58%) ship with SBOMs, all CycloneDX, zero SPDX. Most use older CycloneDX versions (1.4/1.5). We also found 37 invalid SBOMs, all traced to the same cargo-cyclonedx bug. The analysis was powered by PyPI-TEA, our open-source PEP 770 to TEA bridge."
 ---
 

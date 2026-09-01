@@ -5,7 +5,6 @@ aliases:
   - /guides/sbomify-action/runtimes/jenkins/
 title: "SBOM Generation in Jenkins"
 description: "Run the sbomify action in Jenkins declarative and scripted pipelines, with credentials, caching and manual VCS configuration."
-keywords: ["Jenkins SBOM", "Jenkins pipeline SBOM", "CycloneDX Jenkins"]
 tldr: "Use the container image as a pipeline agent. Jenkins does not expose standard VCS environment variables, so set repository details in sbomify.json."
 ---
 

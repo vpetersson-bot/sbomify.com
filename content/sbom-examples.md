@@ -2,7 +2,6 @@
 url: /sbom-examples/
 title: "SBOM Examples: Real CycloneDX and SPDX Files, Annotated"
 description: "Real SBOM examples in CycloneDX and SPDX, annotated field by field, with the same software shown in both formats. Includes live SBOMs you can download and check against the NTIA minimum elements."
-keywords: [sbom example, sbom examples, cyclonedx example, spdx example, sbom format example, sample sbom, sbom json example]
 faq:
   - question: "What does an SBOM look like?"
     answer: "An SBOM is a structured data file, normally JSON, not a document meant to be read by a person. It has a header describing the SBOM itself (who produced it, with which tool, and when) and a list of components, each with at least a name, a version, a supplier, and a unique identifier such as a Package URL. The two industry-standard formats are CycloneDX, an OWASP project standardized as ECMA-424, and SPDX, a Linux Foundation project standardized as ISO/IEC 5962:2021."

@@ -5,7 +5,6 @@ aliases:
   - /guides/sbomify-action/runtimes/bitbucket/
 title: "SBOM Generation in Bitbucket Pipelines"
 description: "Run the sbomify action in Bitbucket Pipelines using a Docker pipe, with caching, container scanning and automatic VCS detection."
-keywords: ["Bitbucket Pipelines SBOM", "Bitbucket pipe", "CycloneDX Bitbucket"]
 tldr: "Run the container image as a Docker pipe. VCS information is detected automatically from Bitbucket's environment variables."
 ---
 

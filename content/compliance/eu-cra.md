@@ -3,7 +3,6 @@
 url: /compliance/eu-cra/
 title: "EU Cyber Resilience Act (CRA) SBOM Requirements"
 description: "Complete guide to CRA SBOM requirements with the BSI TR-03183 family (Parts 1, 2, 3 and H). Covers format requirements, data fields, dependency depth, the September 2026 reporting deadline, harmonised standards status, and a compliance checklist."
-keywords: [EU CRA SBOM, Cyber Resilience Act SBOM, CRA Annex I Part II, BSI TR-03183, CRA reporting obligations, Single Reporting Platform, EN 40000, CRA harmonised standards]
 ---
 
 [← Back to Compliance Overview](/compliance/)

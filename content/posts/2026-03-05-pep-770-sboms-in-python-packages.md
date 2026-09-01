@@ -8,7 +8,6 @@ slug: pep-770-sboms-in-python-packages
 categories:
   - education
 tags: [sbom, python, pep-770, cyclonedx, spdx, pypi, hatchling]
-keywords: [pep 770, python sbom, dist-info sboms, hatchling sbom-files, software bill of materials python]
 tldr: "PEP 770 standardizes shipping SBOMs inside Python wheels in .dist-info/sboms/. Authored by Seth Larson and accepted in April 2025, it's format-agnostic and works with existing tools like hatchling. We adopted it in py-libtea and sbomify-action with minimal changes to each project. The adoption is straightforward -- if you ship Python packages, there's little reason not to adopt PEP 770 today."
 ---
 

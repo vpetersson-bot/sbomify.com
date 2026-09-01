@@ -6,7 +6,6 @@ author:
 categories:
   - guide
 tags: [sbom, yocto, openembedded, spdx, bitbake, embedded-linux]
-keywords: [yocto spdx 2.2, create-spdx bbclass, bitbake spdx tasks, do_create_spdx, openembedded sbom pipeline]
 tldr: "The SPDX 2.2 pipeline in Yocto has been stable since Honister (Yocto 3.4). It produces standards-compliant SBOMs through three core BitBake tasks: do_create_spdx, do_create_runtime_spdx, and do_create_image_spdx. Each recipe gets its own SPDX document, linked together by external document references, and bundled into a tarball at image time. Its biggest gap: no native VEX support."
 date: 2026-05-12
 slug: yocto-spdx-2-2-pipeline

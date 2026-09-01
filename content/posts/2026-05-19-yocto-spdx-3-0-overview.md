@@ -6,7 +6,6 @@ author:
 categories:
   - guide
 tags: [sbom, yocto, openembedded, spdx, spdx-3, json-ld, embedded-linux]
-keywords: [yocto spdx 3.0, create-spdx-3.0 bbclass, spdx json-ld, yocto styhead spdx, build provenance sbom, spdx 3 vex]
 tldr: "SPDX 3.0 support landed in Yocto Styhead (5.1) and is a major architectural leap: single-document JSON-LD output instead of tarballs, first-class Build elements with hasInput/hasOutput relationships, profile-based architecture, and native VEX support through the security profile. The trade-off is size, SBOMs can run 250 MB compressed and 2 GB uncompressed."
 date: 2026-05-19
 slug: yocto-spdx-3-0-overview
