@@ -7,12 +7,12 @@ categories:
   - guide
 tags: [sbom, yocto, openembedded, spdx, spdx-3, production, tooling]
 keywords: [yocto sbom production config, spdx3query, spdx3merge, spdx3validate, yocto sbom tooling, cyclonedx yocto]
-tldr: "A recommended Yocto production SBOM configuration that enables source traceability, package supplier info, and current-only VEX. SPDX 3.0 has standalone tooling — spdx3query, spdx3merge, spdx3validate — installable via pip. OE-Core only generates SPDX (CycloneDX comes from external layers). Layer information and kernel config mapping are still gaps in the SBOM today."
+tldr: "A recommended Yocto production SBOM configuration which enables source traceability, package supplier information, and a current-only VEX snapshot. SPDX 3.0 has standalone tooling — spdx3query, spdx3merge, spdx3validate — installable via pip. OE-Core only generates SPDX (CycloneDX comes from external layers). Layer information and kernel config mapping are still gaps in the SBOM today."
 date: 2026-06-02
 slug: yocto-sbom-production-config
 ---
 
-This is the final post in a 5-part series on how Yocto generates SBOMs. Earlier parts walked through the [overall architecture](/2026/05/05/yocto-sbom-deep-dive-introduction/), the [SPDX 2.2 pipeline](/2026/05/12/yocto-spdx-2-2-pipeline/), the [SPDX 3.0 implementation](/2026/05/19/yocto-spdx-3-0-overview/), and [how VEX data gets embedded](/2026/05/26/yocto-vex-spdx-3-0/). This post pulls everything together with a production-ready configuration, the tooling I have written for working with SPDX 3.0 documents, and a frank look at what is still missing.
+This is part 5 of a 6-part series on how Yocto generates SBOMs. Earlier parts walked through the [overall architecture](/2026/05/05/yocto-sbom-deep-dive-introduction/), the [SPDX 2.2 pipeline](/2026/05/12/yocto-spdx-2-2-pipeline/), the [SPDX 3.0 implementation](/2026/05/19/yocto-spdx-3-0-overview/), and [how VEX data gets embedded](/2026/05/26/yocto-vex-spdx-3-0/). This post pulls everything together with a production-ready configuration, the tooling I have written for working with SPDX 3.0 documents, and a frank look at what is still missing.
 
 ## A Recommended Production Configuration
 
@@ -66,7 +66,7 @@ I have written several standalone tools for working with SPDX 3.0 documents.
 
 **`spdx3validate`** — Validates both the JSON schema structure and the RDF semantics of an SPDX 3.0 document.
 
-All of these are installable via `pip` and work as standalone command-line tools. Part of the reason I wrote them was to demonstrate that simple, standalone SBOM tools are possible. A lot of SBOM tooling these days is big websites with front-ends and databases, and I just do not want to spin up all of that just to look at a document.
+All of these are installable via `pip` and work as standalone command-line tools. Part of the reason I wrote them was to demonstrate that simple, standalone SBOM tools are possible. A lot of SBOM tooling these days amounts to big websites with front-ends and databases, and I just do not want to spin all of that up to look at a document.
 
 ## No CycloneDX in OE-Core
 
@@ -87,3 +87,4 @@ It is worth noting that there are no plans to support CycloneDX in OE-Core. We o
 - Part 3: [SPDX 3.0 in Yocto: What Changed and Why It Matters](/2026/05/19/yocto-spdx-3-0-overview/)
 - Part 4: [VEX in the SBOM: How Yocto Embeds Vulnerability Assessments](/2026/05/26/yocto-vex-spdx-3-0/)
 - Part 5: Yocto SBOM in Production: Configuration, Tooling, and What's Still Missing _(this post)_
+- Part 6: You Have an SBOM. Now What? Making Yocto SBOMs Operational for the CRA _(coming soon)_
