@@ -14,7 +14,7 @@ slug: yocto-vex-spdx-3-0
 
 VEX support is one of the most compelling reasons to adopt SPDX 3.0 for your Yocto builds. This post traces exactly how vulnerability information flows from recipe metadata into VEX statements in the final SBOM.
 
-This is part 4 of a 5-part series on how Yocto generates SBOMs. Earlier parts covered the [overall architecture](/2026/05/05/yocto-sbom-deep-dive-introduction/), the [SPDX 2.2 pipeline](/2026/05/12/yocto-spdx-2-2-pipeline/), and the [SPDX 3.0 implementation](/2026/05/19/yocto-spdx-3-0-overview/) that makes embedded VEX possible.
+This is part 4 of a 6-part series on how Yocto generates SBOMs. Earlier parts covered the [overall architecture](/2026/05/05/yocto-sbom-deep-dive-introduction/), the [SPDX 2.2 pipeline](/2026/05/12/yocto-spdx-2-2-pipeline/), and the [SPDX 3.0 implementation](/2026/05/19/yocto-spdx-3-0-overview/) that makes embedded VEX possible.
 
 ## The CVE Infrastructure That Feeds VEX
 
@@ -56,18 +56,26 @@ For each CVE, the class calls `oe.cve_check.decode_cve_status()` to extract the 
 
 ### Step 4: Create SPDX Vulnerability and VEX elements
 
-For each CVE, the class creates a `security_Vulnerability` element with a unique SPDX ID based on the CVE identifier, and a VEX relationship element linking the vulnerability to the affected package:
+For each CVE, the class creates a `security_Vulnerability` element with a unique SPDX ID based on the CVE identifier, and a VEX relationship element linking the vulnerability to the recipe it affects:
 
 ```python
+notes = ": ".join(v for v in (detail, description) if v)
+
 if status == "Patched":
-    pkg_objset.new_vex_patched_relationship([spdx_cve._id], [spdx_package])
+    spdx_vex = recipe_objset.new_vex_patched_relationship(
+        [spdx_cve_id], [recipe], notes=notes
+    )
 elif status == "Unpatched":
-    pkg_objset.new_vex_unpatched_relationship([spdx_cve._id], [spdx_package])
+    recipe_objset.new_vex_unpatched_relationship(
+        [spdx_cve_id], [recipe], notes=notes
+    )
 elif status == "Ignored":
-    spdx_vex = pkg_objset.new_vex_ignored_relationship(
-        [spdx_cve._id], [spdx_package]
+    spdx_vex = recipe_objset.new_vex_ignored_relationship(
+        [spdx_cve_id], [recipe], impact_statement=description, notes=detail
     )
 ```
+
+The asymmetry here is deliberate. The `Patched` and `Ignored` branches keep the relationship they just created because they still have work to do with it: `Patched` attaches the patch files that fixed the CVE via a `patchedBy` relationship, and `Ignored` stamps the relationship with a `security_justificationType` taken from the `CVE_CHECK_VEX_JUSTIFICATION` variable flag. `Unpatched` has nothing further to record, so it drops the return value.
 
 These correspond to the SPDX 3.0 security profile's `VexVulnAssessmentRelationship` subtypes:
 
@@ -125,3 +133,4 @@ Two changes are worth flagging for anyone tracking the current direction of the 
 - Part 3: [SPDX 3.0 in Yocto: What Changed and Why It Matters](/2026/05/19/yocto-spdx-3-0-overview/)
 - Part 4: VEX in the SBOM: How Yocto Embeds Vulnerability Assessments _(this post)_
 - Part 5: Yocto SBOM in Production: Configuration, Tooling, and What's Still Missing _(coming soon)_
+- Part 6: You Have an SBOM. Now What? Making Yocto SBOMs Operational for the CRA _(coming soon)_
