@@ -4,7 +4,7 @@ title: Privacy Policy
 description: Our commitment to protecting your privacy and personal data
 ---
 
-Last updated: September 10, 2026
+Last updated: October 28, 2026
 
 This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You. We are committed to protecting your privacy in accordance with the UK General Data Protection Regulation (UK GDPR), the Data Protection Act 2018, and other applicable UK data protection laws.
 
@@ -125,6 +125,7 @@ What is stored once You accept:
 
 - `sbomify_cookie_consent` (browser local storage) — records whether You accepted or declined, so that We do not ask again. Stored on Your device only and never sent to Us or to any third party. This entry is also written when You decline.
 - `ph_<project key>_posthog` (Cookie, expires after 365 days) — PostHog's pseudonymous visitor and session identifier.
+- `__ph_opt_in_out_<project key>` (Cookie, expires after 365 days) — records that You accepted, so that the sbomify app at app.sbomify.com applies the same choice. It is only set when You accept, and is deleted when You decline.
 - Further `ph_*` entries in browser local storage — session state and feature flag values used by PostHog.
 
 You can change Your decision at any time through the **Cookie settings** link in the footer of every page. Declining, or withdrawing an acceptance You gave earlier, stops analytics collection and deletes the PostHog Cookies and local storage entries this Website has already set. You can also refuse or delete Cookies through Your browser settings.
